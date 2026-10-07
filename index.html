@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Klavier – Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--lack:#15181d;--lack2:#1e232b;--elfen:#f1eee6;--soft:#a9a79f;--messing:#c8a24f;--rot:#d36a5e;--ok:#7fbf8e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--lack);color:var(--elfen);font:18px/1.7 Georgia,'Times New Roman',serif}
+.keys{height:34px;background:repeating-linear-gradient(90deg,var(--elfen) 0 38px,#bbb 38px 39px)}
+.keys i{position:absolute}
+.keys-wrap{position:relative}
+.keys-wrap b{position:absolute;top:0;width:24px;height:21px;background:var(--lack);border-radius:0 0 3px 3px}
+header{max-width:760px;margin:0 auto;padding:40px 22px 10px}
+h1{font-size:clamp(34px,7vw,56px);line-height:1.1;margin:0 0 8px;font-weight:400;letter-spacing:-.5px}
+.sub{color:var(--soft);margin:0}
+main{max-width:760px;margin:0 auto;padding:10px 22px 80px}
+.bar{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 0;max-width:760px;margin:0 auto}
+button,.btn{font:15px Georgia,serif;background:transparent;color:var(--elfen);border:1px solid #444b57;padding:10px 16px;border-radius:6px;cursor:pointer;min-height:42px}
+button:hover{border-color:var(--messing)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--messing);outline-offset:2px}
+button.primary{background:var(--messing);color:#1a1405;border-color:var(--messing);font-weight:700}
+button.danger{color:var(--rot);border-color:#6b3a35}
+article{padding:34px 0;border-bottom:1px solid #2b313b}
+article h2{font-size:30px;line-height:1.25;margin:0 0 4px;font-weight:400}
+.date{color:var(--messing);font-size:14px;margin-bottom:14px}
+.text{white-space:pre-wrap;word-wrap:break-word}
+.imgs{display:grid;gap:10px;margin:18px 0;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.imgs img{width:100%;border-radius:4px;display:block;cursor:zoom-in}
+.admin-actions{margin-top:14px;display:flex;gap:8px}
+.msg{color:var(--soft);padding:40px 0;text-align:center}
+.panel{background:var(--lack2);border:1px solid #333a46;border-radius:10px;padding:20px;margin:24px 0}
+.panel h3{margin:0 0 14px;font-weight:400;font-size:22px}
+label{display:block;font-size:14px;color:var(--soft);margin:12px 0 4px}
+input[type=text],input[type=password],textarea{width:100%;font:17px Georgia,serif;background:var(--lack);color:var(--elfen);border:1px solid #444b57;border-radius:6px;padding:10px 12px}
+textarea{min-height:200px;resize:vertical}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.thumb{position:relative;width:96px;height:96px}
+.thumb img{width:100%;height:100%;object-fit:cover;border-radius:4px}
+.thumb button{position:absolute;top:-8px;right:-8px;min-height:28px;width:28px;padding:0;border-radius:50%;background:var(--lack);color:var(--rot);border-color:var(--rot)}
+.row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.note{font-size:14px;color:var(--soft)}
+.note.ok{color:var(--ok)}.note.err{color:var(--rot)}
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:20px;z-index:9;cursor:zoom-out}
+#lightbox img{max-width:100%;max-height:100%}
+footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
+</style>
+</head>
+<body>
+<div class="keys-wrap"><div class="keys"></div></div>
+<div class="bar"><span id="conn" class="note"></span><button id="adminBtn">Verwalten</button></div>
+<header>
+  <h1 id="siteTitle">Klavier – Blog</h1>
+  <p class="sub" id="siteSub">Gedanken, Konzerte und Eindrücke am Flügel.</p>
+</header>
+<main>
+  <section id="editor" class="panel" style="display:none">
+    <h3 id="editorTitle">Neuer Beitrag</h3>
+    <label for="pTitle">Titel</label>
+    <input type="text" id="pTitle" maxlength="140">
+    <label for="pText">Text</label>
+    <textarea id="pText"></textarea>
+    <label for="pFiles">Bilder hinzufügen (werden automatisch verkleinert)</label>
+    <input type="file" id="pFiles" accept="image/*" multiple>
+    <div class="thumbs" id="thumbs"></div>
+    <div class="row">
+      <button class="primary" id="saveBtn">Veröffentlichen</button>
+      <button id="cancelBtn">Abbrechen</button>
+      <button id="logoutBtn">Abmelden</button>
+      <span id="editMsg" class="note"></span>
+    </div>
+  </section>
+  <div id="posts"><div class="msg">Beiträge werden geladen …</div></div>
+</main>
+<footer>© <span id="yr"></span></footer>
+<div id="lightbox"><img alt=""></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "cSEBpzXBKyU6NRoqoSiuA8uFIsgQXFJJsM5juBrc",
+  authDomain: "musiknotenaustausch.firebaseapp.com",
+  databaseURL: "https://musiknotenaustausch-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "musiknotenaustausch",
+};
+const PASSWORD = "PinoMao";
+const BLOG_PATH = "blog/posts";   // Pfad in der Realtime Database
+const MAX_IMAGES = 6, MAX_SIDE = 1400;
+
+const $ = id => document.getElementById(id);
+let db, posts = {}, admin = false, editId = null, images = [];
+
+try { admin = sessionStorage.getItem('blogAdmin') === '1'; } catch(e){}
+$('yr').textContent = new Date().getFullYear();
+
+const esc = s => String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = ts => new Date(ts).toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
+
+function render(){
+  const ids = Object.keys(posts).sort((a,b)=>posts[b].createdAt-posts[a].createdAt);
+  if(!ids.length){ $('posts').innerHTML = '<div class="msg">Noch keine Beiträge veröffentlicht.</div>'; return; }
+  $('posts').innerHTML = ids.map(id=>{
+    const p = posts[id], imgs = p.images ? Object.values(p.images) : [];
+    return `<article>
+      <h2>${esc(p.title)}</h2>
+      <div class="date">${fmt(p.createdAt)}${p.updatedAt&&p.updatedAt!==p.createdAt?' (bearbeitet)':''}</div>
+      <div class="text">${esc(p.text)}</div>
+      ${imgs.length?`<div class="imgs">${imgs.map(s=>`<img src="${s}" alt="Bild zu „${esc(p.title)}“" loading="lazy">`).join('')}</div>`:''}
+      ${admin?`<div class="admin-actions"><button data-edit="${id}">Bearbeiten</button><button class="danger" data-del="${id}">Löschen</button></div>`:''}
+    </article>`;
+  }).join('');
+}
+
+$('posts').addEventListener('click', e=>{
+  const t = e.target;
+  if(t.tagName==='IMG'){ $('lightbox').firstElementChild.src=t.src; $('lightbox').style.display='flex'; }
+  if(t.dataset.edit) openEditor(t.dataset.edit);
+  if(t.dataset.del && confirm('Diesen Beitrag endgültig löschen?')){
+    db.ref(BLOG_PATH+'/'+t.dataset.del).remove().catch(err=>alert('Löschen fehlgeschlagen: '+err.message));
+  }
+});
+$('lightbox').onclick = ()=> $('lightbox').style.display='none';
+
+function setAdmin(on){
+  admin = on;
+  try{ sessionStorage.setItem('blogAdmin', on?'1':'0'); }catch(e){}
+  $('adminBtn').textContent = on ? 'Neuer Beitrag' : 'Verwalten';
+  if(!on) $('editor').style.display='none';
+  render();
+}
+
+$('adminBtn').onclick = ()=>{
+  if(!admin){
+    const pw = prompt('Passwort eingeben:');
+    if(pw===null) return;
+    if(pw!==PASSWORD){ alert('Falsches Passwort.'); return; }
+    setAdmin(true);
+  }
+  openEditor(null);
+};
+$('logoutBtn').onclick = ()=> setAdmin(false);
+$('cancelBtn').onclick = ()=> $('editor').style.display='none';
+
+function openEditor(id){
+  editId = id;
+  const p = id ? posts[id] : null;
+  $('editorTitle').textContent = p ? 'Beitrag bearbeiten' : 'Neuer Beitrag';
+  $('saveBtn').textContent = p ? 'Änderungen speichern' : 'Veröffentlichen';
+  $('pTitle').value = p ? p.title : '';
+  $('pText').value = p ? p.text : '';
+  $('pFiles').value = '';
+  images = p && p.images ? Object.values(p.images) : [];
+  $('editMsg').textContent = ''; $('editMsg').className='note';
+  drawThumbs();
+  $('editor').style.display='block';
+  $('editor').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function drawThumbs(){
+  $('thumbs').innerHTML = images.map((s,i)=>`<div class="thumb"><img src="${s}" alt=""><button data-rm="${i}" aria-label="Bild entfernen">×</button></div>`).join('');
+}
+$('thumbs').addEventListener('click', e=>{
+  if(e.target.dataset.rm!==undefined){ images.splice(+e.target.dataset.rm,1); drawThumbs(); }
+});
+
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onerror = ()=>rej(new Error('Datei nicht lesbar'));
+    r.onload = ()=>{
+      const img = new Image();
+      img.onerror = ()=>rej(new Error('Kein gültiges Bild: '+file.name));
+      img.onload = ()=>{
+        const k = Math.min(1, MAX_SIDE/Math.max(img.width,img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        res(c.toDataURL('image/jpeg',0.82));
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+$('pFiles').onchange = async e=>{
+  const msg = $('editMsg'); msg.className='note';
+  for(const f of e.target.files){
+    if(images.length>=MAX_IMAGES){ msg.textContent='Maximal '+MAX_IMAGES+' Bilder pro Beitrag.'; msg.className='note err'; break; }
+    try{ msg.textContent='Bild wird verkleinert …'; images.push(await shrink(f)); msg.textContent=''; }
+    catch(err){ msg.textContent=err.message; msg.className='note err'; }
+  }
+  e.target.value=''; drawThumbs();
+};
+
+$('saveBtn').onclick = ()=>{
+  const title = $('pTitle').value.trim(), text = $('pText').value.trim(), msg = $('editMsg');
+  if(!title || !text){ msg.textContent='Bitte Titel und Text ausfüllen.'; msg.className='note err'; return; }
+  const now = Date.now();
+  const data = {title, text, images: images.length?images:null, updatedAt: now};
+  msg.textContent='Wird gespeichert …'; msg.className='note';
+  const op = editId
+    ? db.ref(BLOG_PATH+'/'+editId).update(data)
+    : db.ref(BLOG_PATH).push({...data, createdAt: now});
+  op.then(()=>{ $('editor').style.display='none'; })
+    .catch(err=>{ msg.textContent='Speichern fehlgeschlagen: '+err.message; msg.className='note err'; });
+};
+
+try{
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+  db.ref('.info/connected').on('value', s=>{
+    $('conn').textContent = s.val() ? '' : 'keine Verbindung …';
+  });
+  db.ref(BLOG_PATH).on('value', s=>{ posts = s.val()||{}; render(); },
+    err=>{ $('posts').innerHTML='<div class="msg">Beiträge konnten nicht geladen werden: '+esc(err.message)+'</div>'; });
+}catch(e){
+  $('posts').innerHTML='<div class="msg">Firebase-Verbindung fehlgeschlagen: '+esc(e.message)+'</div>';
+}
+if(admin) $('adminBtn').textContent='Neuer Beitrag';
+</script>
+</body>
+</html>
