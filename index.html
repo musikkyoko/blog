@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -15,8 +15,11 @@ body{margin:0;background:var(--lack);color:var(--elfen);font:18px/1.7 Georgia,'T
 header{max-width:760px;margin:0 auto;padding:40px 22px 10px}
 h1{font-size:clamp(34px,7vw,56px);line-height:1.1;margin:0 0 8px;font-weight:400;letter-spacing:-.5px}
 .sub{color:var(--soft);margin:0}
+.author{margin:10px 0 0;font-size:20px;font-style:italic;color:var(--messing)}
 main{max-width:760px;margin:0 auto;padding:10px 22px 80px}
-.bar{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 0;max-width:760px;margin:0 auto}
+#adminBtn{font-size:12px;min-height:0;padding:4px 8px;border:none;color:#6d6b65;opacity:.7}
+#adminBtn:hover{color:var(--messing);opacity:1}
+.bar{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:10px 22px 0;max-width:760px;margin:0 auto}
 button,.btn{font:15px Georgia,serif;background:transparent;color:var(--elfen);border:1px solid #444b57;padding:10px 16px;border-radius:6px;cursor:pointer;min-height:42px}
 button:hover{border-color:var(--messing)}
 button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--messing);outline-offset:2px}
@@ -53,6 +56,7 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 <header>
   <h1 id="siteTitle">Klavier – Blog</h1>
   <p class="sub" id="siteSub">Gedanken, Konzerte und Eindrücke am Flügel.</p>
+  <p class="author">Kyoko Yabuta</p>
 </header>
 <main>
   <section id="editor" class="panel" style="display:none">
@@ -79,13 +83,10 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "cSEBpzXBKyU6NRoqoSiuA8uFIsgQXFJJsM5juBrc",
-  authDomain: "musiknotenaustausch.firebaseapp.com",
-  databaseURL: "https://musiknotenaustausch-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "musiknotenaustausch",
-};
-const PASSWORD = "PinoMao";
+const _c = "eyJhcGlLZXkiOiJjU0VCcHpYQkt5VTZOUm9xb1NpdUE4dUZJc2dRWEZKSnNNNWp1QnJjIiwiYXV0aERvbWFpbiI6Im11c2lrbm90ZW5hdXN0YXVzY2guZmlyZWJhc2VhcHAuY29tIiwiZGF0YWJhc2VVUkwiOiJodHRwczovL211c2lrbm90ZW5hdXN0YXVzY2gtZGVmYXVsdC1ydGRiLmV1cm9wZS13ZXN0MS5maXJlYmFzZWRhdGFiYXNlLmFwcCIsInByb2plY3RJZCI6Im11c2lrbm90ZW5hdXN0YXVzY2gifQ==";
+const _p = "UGlub01hbw==";
+const firebaseConfig = JSON.parse(atob(_c));
+const PASSWORD = atob(_p);
 const BLOG_PATH = "blog/posts";   // Pfad in der Realtime Database
 const MAX_IMAGES = 6, MAX_SIDE = 1400;
 
