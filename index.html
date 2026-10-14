@@ -67,7 +67,7 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 </head>
 <body>
 <div class="keys-wrap"><div class="keys"></div></div>
-<div class="bar"><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="contactBtn" class="mini">Kontakt</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
+<div class="bar"><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="contactBtn" class="mini">Kontakt / お問い合わせ</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
 <header>
   <h1 id="siteTitle">Klavier – Blog</h1>
   <p class="sub" id="siteSub">Gedanken, Konzerte und Eindrücke am Flügel.</p>
@@ -75,15 +75,15 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 </header>
 <main>
   <section id="contact" class="panel" style="display:none">
-    <h3>Kontakt</h3>
-    <label for="cName">Name</label>
+    <h3>Kontakt / お問い合わせ</h3>
+    <label for="cName">Name / お名前</label>
     <input type="text" id="cName" maxlength="100" autocomplete="name">
-    <label for="cEmail">Deine E-Mail-Adresse</label>
+    <label for="cEmail">Deine E-Mail-Adresse / メールアドレス</label>
     <input type="text" id="cEmail" maxlength="200" autocomplete="email" inputmode="email">
-    <label for="cText">Nachricht</label>
+    <label for="cText">Nachricht / メッセージ</label>
     <textarea id="cText" maxlength="4000" style="min-height:150px"></textarea>
     <input type="text" id="cHp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <div class="row"><button class="primary" id="cSend">Nachricht senden</button><button id="cCancel">Schließen</button><span id="cMsg" class="note"></span></div>
+    <div class="row"><button class="primary" id="cSend">Nachricht senden / 送信</button><button id="cCancel">Schließen / 閉じる</button><span id="cMsg" class="note"></span></div>
   </section>
   <section id="inbox" class="panel" style="display:none">
     <h3>Nachrichten</h3>
@@ -295,17 +295,17 @@ $('cSend').onclick = ()=>{
   const m=$('cMsg'), name=$('cName').value.trim(), email=$('cEmail').value.trim(), text=$('cText').value.trim();
   m.className='note err';
   if($('cHp').value) return;
-  if(!name || !text){ m.textContent='Bitte Name und Nachricht ausfüllen.'; return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ m.textContent='Bitte eine gültige E-Mail-Adresse angeben.'; return; }
-  try{ if(Date.now()-(+localStorage.getItem('lastMsg')||0) < 30000){ m.textContent='Bitte einen Moment warten.'; return; } }catch(e){}
-  m.className='note'; m.textContent='Wird gesendet …'; $('cSend').disabled=true;
+  if(!name || !text){ m.textContent='Bitte Name und Nachricht ausfüllen. / お名前とメッセージを入力してください。'; return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ m.textContent='Bitte eine gültige E-Mail-Adresse angeben. / 有効なメールアドレスを入力してください。'; return; }
+  try{ if(Date.now()-(+localStorage.getItem('lastMsg')||0) < 30000){ m.textContent='Bitte einen Moment warten. / 少々お待ちください。'; return; } }catch(e){}
+  m.className='note'; m.textContent='Wird gesendet … / 送信中…'; $('cSend').disabled=true;
   db.ref('blog/messages').push({name:name.slice(0,100), email:email.slice(0,200), text:text.slice(0,4000), createdAt:Date.now()})
     .then(()=>{
       try{ localStorage.setItem('lastMsg', Date.now()); }catch(e){}
       $('cName').value=''; $('cEmail').value=''; $('cText').value='';
-      m.className='note ok'; m.textContent='Danke! Deine Nachricht wurde gesendet.';
+      m.className='note ok'; m.textContent='Danke! Deine Nachricht wurde gesendet. / ありがとうございます。送信しました。';
     })
-    .catch(()=>{ m.className='note err'; m.textContent='Senden fehlgeschlagen. Bitte später erneut versuchen.'; })
+    .catch(()=>{ m.className='note err'; m.textContent='Senden fehlgeschlagen. Bitte später erneut versuchen. / 送信に失敗しました。後でもう一度お試しください。'; })
     .finally(()=>{ $('cSend').disabled=false; });
 };
 
