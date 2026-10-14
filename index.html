@@ -3,16 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Klavier – Blog</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMxNTE4MWQiLz48ZyBmaWxsPSIjZjFlZWU2Ij48cmVjdCB4PSI5IiB5PSIxMSIgd2lkdGg9IjE0IiBoZWlnaHQ9IjQyIiByeD0iMiIvPjxyZWN0IHg9IjI1IiB5PSIxMSIgd2lkdGg9IjE0IiBoZWlnaHQ9IjQyIiByeD0iMiIvPjxyZWN0IHg9IjQxIiB5PSIxMSIgd2lkdGg9IjE0IiBoZWlnaHQ9IjQyIiByeD0iMiIvPjwvZz48ZyBmaWxsPSIjMGQwZjEzIiBzdHJva2U9IiNjOGEyNGYiIHN0cm9rZS13aWR0aD0iMS41Ij48cmVjdCB4PSIxOCIgeT0iMTEiIHdpZHRoPSI5IiBoZWlnaHQ9IjI2IiByeD0iMS41Ii8+PHJlY3QgeD0iMzciIHk9IjExIiB3aWR0aD0iOSIgaGVpZ2h0PSIyNiIgcng9IjEuNSIvPjwvZz48L3N2Zz4=">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--lack:#15181d;--lack2:#1e232b;--elfen:#f1eee6;--soft:#a9a79f;--messing:#c8a24f;--rot:#d36a5e;--ok:#7fbf8e}
+:root{--font:Georgia,'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;--lack:#15181d;--lack2:#1e232b;--elfen:#f1eee6;--soft:#a9a79f;--messing:#c8a24f;--rot:#d36a5e;--ok:#7fbf8e}
 *{box-sizing:border-box}
-body{margin:0;background:var(--lack);color:var(--elfen);font:18px/1.7 Georgia,'Times New Roman',serif}
-.keys{height:34px;background:repeating-linear-gradient(90deg,var(--elfen) 0 38px,#bbb 38px 39px)}
+body{margin:0;background:var(--lack);color:var(--elfen);font:18px/1.7 var(--font)}
+.keys{height:46px;background:
+ linear-gradient(90deg,transparent 0px 15px,#0d0f13 15px 29px,transparent 29px 37px,#0d0f13 37px 51px,transparent 51px 81px,#0d0f13 81px 95px,transparent 95px 103px,#0d0f13 103px 117px,transparent 117px 125px,#0d0f13 125px 139px,transparent 139px) 0 0/154px 62% repeat-x,
+ repeating-linear-gradient(90deg,transparent 0 21px,#b9b4a6 21px 22px),
+ linear-gradient(180deg,#fbf9f3,var(--elfen));
+ box-shadow:inset 0 -5px 8px rgba(0,0,0,.14)}
 .keys i{position:absolute}
 .keys-wrap{position:relative}
 .keys-wrap b{position:absolute;top:0;width:24px;height:21px;background:var(--lack);border-radius:0 0 3px 3px}
 header{max-width:760px;margin:0 auto;padding:40px 22px 10px}
+h1,article h2{font-weight:600}
 h1{font-size:clamp(34px,7vw,56px);line-height:1.1;margin:0 0 8px;font-weight:400;letter-spacing:-.5px}
 .sub{color:var(--soft);margin:0}
 .author{margin:10px 0 0;font-size:20px;font-style:italic;color:var(--messing)}
@@ -20,7 +29,7 @@ main{max-width:760px;margin:0 auto;padding:10px 22px 80px}
 #adminBtn{font-size:12px;min-height:0;padding:4px 8px;border:none;color:#6d6b65;opacity:.7}
 #adminBtn:hover{color:var(--messing);opacity:1}
 .bar{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:10px 22px 0;max-width:760px;margin:0 auto}
-button,.btn{font:15px Georgia,serif;background:transparent;color:var(--elfen);border:1px solid #444b57;padding:10px 16px;border-radius:6px;cursor:pointer;min-height:42px}
+button,.btn{font:15px var(--font);background:transparent;color:var(--elfen);border:1px solid #444b57;padding:10px 16px;border-radius:6px;cursor:pointer;min-height:42px}
 button:hover{border-color:var(--messing)}
 button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--messing);outline-offset:2px}
 button.primary{background:var(--messing);color:#1a1405;border-color:var(--messing);font-weight:700}
@@ -29,14 +38,20 @@ article{padding:34px 0;border-bottom:1px solid #2b313b}
 article h2{font-size:30px;line-height:1.25;margin:0 0 4px;font-weight:400}
 .date{color:var(--messing);font-size:14px;margin-bottom:14px}
 .text{white-space:pre-wrap;word-wrap:break-word}
-.imgs{display:grid;gap:10px;margin:18px 0;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.imgs{display:grid;gap:10px;margin:18px 0;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.ph{height:140px;border-radius:4px;background:linear-gradient(90deg,#1e232b,#2a303a,#1e232b);background-size:200% 100%;animation:sh 1.2s infinite linear}
+@keyframes sh{to{background-position:-200% 0}}
+.mini{font-size:13px;min-height:0;padding:5px 10px}
+.hp{position:absolute;left:-9999px;height:0;width:0;opacity:0}
+.msgitem{border-top:1px solid #333a46;padding:12px 0}
+.msgitem .who{color:var(--messing);font-size:14px;word-break:break-all}
 .imgs img{width:100%;border-radius:4px;display:block;cursor:zoom-in}
 .admin-actions{margin-top:14px;display:flex;gap:8px}
 .msg{color:var(--soft);padding:40px 0;text-align:center}
 .panel{background:var(--lack2);border:1px solid #333a46;border-radius:10px;padding:20px;margin:24px 0}
 .panel h3{margin:0 0 14px;font-weight:400;font-size:22px}
 label{display:block;font-size:14px;color:var(--soft);margin:12px 0 4px}
-input[type=text],input[type=password],textarea{width:100%;font:17px Georgia,serif;background:var(--lack);color:var(--elfen);border:1px solid #444b57;border-radius:6px;padding:10px 12px}
+input[type=text],input[type=password],textarea{width:100%;font:17px var(--font);background:var(--lack);color:var(--elfen);border:1px solid #444b57;border-radius:6px;padding:10px 12px}
 textarea{min-height:200px;resize:vertical}
 .thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
 .thumb{position:relative;width:96px;height:96px}
@@ -52,13 +67,28 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 </head>
 <body>
 <div class="keys-wrap"><div class="keys"></div></div>
-<div class="bar"><span id="conn" class="note"></span><button id="adminBtn">Verwalten</button></div>
+<div class="bar"><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="contactBtn" class="mini">Kontakt</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
 <header>
   <h1 id="siteTitle">Klavier – Blog</h1>
   <p class="sub" id="siteSub">Gedanken, Konzerte und Eindrücke am Flügel.</p>
   <p class="author">Kyoko Yabuta</p>
 </header>
 <main>
+  <section id="contact" class="panel" style="display:none">
+    <h3>Kontakt</h3>
+    <label for="cName">Name</label>
+    <input type="text" id="cName" maxlength="100" autocomplete="name">
+    <label for="cEmail">Deine E-Mail-Adresse</label>
+    <input type="text" id="cEmail" maxlength="200" autocomplete="email" inputmode="email">
+    <label for="cText">Nachricht</label>
+    <textarea id="cText" maxlength="4000" style="min-height:150px"></textarea>
+    <input type="text" id="cHp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="row"><button class="primary" id="cSend">Nachricht senden</button><button id="cCancel">Schließen</button><span id="cMsg" class="note"></span></div>
+  </section>
+  <section id="inbox" class="panel" style="display:none">
+    <h3>Nachrichten</h3>
+    <div id="inboxList"></div>
+  </section>
   <section id="editor" class="panel" style="display:none">
     <h3 id="editorTitle">Neuer Beitrag</h3>
     <label for="pTitle">Titel</label>
@@ -88,7 +118,7 @@ const _p = "UGlub01hbw==";
 const firebaseConfig = JSON.parse(atob(_c));
 const PASSWORD = atob(_p);
 const BLOG_PATH = "blog/posts";   // Pfad in der Realtime Database
-const MAX_IMAGES = 6, MAX_SIDE = 1200, TARGET_KB = 140;
+const MAX_IMAGES = 6, MAX_SIDE = 1600, TARGET_KB = 260;
 
 const $ = id => document.getElementById(id);
 let db, posts = {}, admin = false, editId = null, images = [];
@@ -99,27 +129,52 @@ $('yr').textContent = new Date().getFullYear();
 const esc = s => String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = ts => new Date(ts).toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 
+const PAGE = 8;
+let limit = PAGE, imgCache = {}, loaded = 0, unsub = null;
+
+function imgsOf(id){
+  const p = posts[id];
+  if(p.images) return Object.values(p.images).map(x=>({t:x,f:x}));   // ältere Beiträge
+  return imgCache[id] || null;                                        // null = lädt noch
+}
+
 function render(){
   const ids = Object.keys(posts).sort((a,b)=>posts[b].createdAt-posts[a].createdAt);
   if(!ids.length){ $('posts').innerHTML = '<div class="msg">Noch keine Beiträge veröffentlicht.</div>'; return; }
   $('posts').innerHTML = ids.map(id=>{
-    const p = posts[id], imgs = p.images ? Object.values(p.images) : [];
+    const p = posts[id], n = p.imgCount || (p.images ? Object.keys(p.images).length : 0), im = n ? imgsOf(id) : [];
+    let grid = '';
+    if(n && !im) grid = `<div class="imgs">${'<div class="ph"></div>'.repeat(Math.min(n,3))}</div>`;
+    else if(im && im.length) grid = `<div class="imgs">${im.map((x,i)=>`<img src="${x.t}" data-p="${id}" data-i="${i}" alt="Bild zu „${esc(p.title)}“">`).join('')}</div>`;
     return `<article>
       <h2>${esc(p.title)}</h2>
-      <div class="date">${fmt(p.createdAt)}${p.updatedAt&&p.updatedAt!==p.createdAt?' (bearbeitet)':''}</div>
-      <div class="text">${esc(p.text)}</div>
-      ${imgs.length?`<div class="imgs">${imgs.map(s=>`<img src="${s}" alt="Bild zu „${esc(p.title)}“" loading="lazy">`).join('')}</div>`:''}
+      <div class="date">${fmt(p.createdAt)}</div>
+      <div class="text">${esc(p.text)}</div>${grid}
       ${admin?`<div class="admin-actions"><button data-edit="${id}">Bearbeiten</button><button class="danger" data-del="${id}">Löschen</button></div>`:''}
     </article>`;
-  }).join('');
+  }).join('') + (loaded>=limit ? '<div class="msg"><button id="moreBtn">Ältere Beiträge laden</button></div>' : '');
+  // Bilder erst nach dem Text nachladen
+  ids.forEach(id=>{
+    const p = posts[id];
+    if(p.imgCount && !p.images && !(id in imgCache)){
+      imgCache[id] = undefined;
+      db.ref('blog/images/'+id).once('value').then(sn=>{ imgCache[id] = Object.values(sn.val()||{}); render(); })
+        .catch(()=>{ imgCache[id] = []; });
+    }
+  });
 }
 
 $('posts').addEventListener('click', e=>{
   const t = e.target;
-  if(t.tagName==='IMG'){ $('lightbox').firstElementChild.src=t.src; $('lightbox').style.display='flex'; }
+  if(t.id==='moreBtn'){ limit += PAGE; listen(); return; }
+  if(t.tagName==='IMG' && t.dataset.p){
+    const x = imgsOf(t.dataset.p)[+t.dataset.i];
+    $('lightbox').firstElementChild.src = x.f; $('lightbox').style.display='flex';
+  }
   if(t.dataset.edit) openEditor(t.dataset.edit);
   if(t.dataset.del && confirm('Diesen Beitrag endgültig löschen?')){
-    db.ref(BLOG_PATH+'/'+t.dataset.del).remove().catch(err=>alert('Löschen fehlgeschlagen: '+err.message));
+    db.ref().update({[BLOG_PATH+'/'+t.dataset.del]:null, ['blog/images/'+t.dataset.del]:null})
+      .catch(err=>alert('Löschen fehlgeschlagen: '+err.message));
   }
 });
 $('lightbox').onclick = ()=> $('lightbox').style.display='none';
@@ -128,7 +183,10 @@ function setAdmin(on){
   admin = on;
   try{ sessionStorage.setItem('blogAdmin', on?'1':'0'); }catch(e){}
   $('adminBtn').textContent = on ? 'Neuer Beitrag' : 'Verwalten';
-  if(!on) $('editor').style.display='none';
+  $('inboxBtn').style.display = on ? '' : 'none';
+  $('logoutTop').style.display = on ? '' : 'none';
+  if(!on){ $('editor').style.display='none'; $('inbox').style.display='none'; }
+  adminMessages(on);
   render();
 }
 
@@ -142,9 +200,10 @@ $('adminBtn').onclick = ()=>{
   openEditor(null);
 };
 $('logoutBtn').onclick = ()=> setAdmin(false);
+$('logoutTop').onclick = ()=> setAdmin(false);
 $('cancelBtn').onclick = ()=> $('editor').style.display='none';
 
-function openEditor(id){
+async function openEditor(id){
   editId = id;
   const p = id ? posts[id] : null;
   $('editorTitle').textContent = p ? 'Beitrag bearbeiten' : 'Neuer Beitrag';
@@ -152,19 +211,40 @@ function openEditor(id){
   $('pTitle').value = p ? p.title : '';
   $('pText').value = p ? p.text : '';
   $('pFiles').value = '';
-  images = p && p.images ? Object.values(p.images) : [];
   $('editMsg').textContent = ''; $('editMsg').className='note';
+  images = [];
+  if(p){
+    if(p.images) images = Object.values(p.images).map(x=>({t:x,f:x}));
+    else if(p.imgCount){
+      $('editMsg').textContent = 'Bilder werden geladen …';
+      try{ images = Object.values((await db.ref('blog/images/'+id).once('value')).val()||{}); }catch(e){}
+      $('editMsg').textContent = '';
+    }
+  }
   drawThumbs();
   $('editor').style.display='block';
   $('editor').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function drawThumbs(){
-  $('thumbs').innerHTML = images.map((s,i)=>`<div class="thumb"><img src="${s}" alt=""><button data-rm="${i}" aria-label="Bild entfernen">×</button></div>`).join('');
+  $('thumbs').innerHTML = images.map((x,i)=>`<div class="thumb"><img src="${x.t}" alt=""><button data-rm="${i}" aria-label="Bild entfernen">×</button></div>`).join('');
 }
 $('thumbs').addEventListener('click', e=>{
   if(e.target.dataset.rm!==undefined){ images.splice(+e.target.dataset.rm,1); drawThumbs(); }
 });
+
+function draw(img, side, q0, targetKB, minQ){
+  const k = Math.min(1, side/Math.max(img.width,img.height));
+  const c = document.createElement('canvas');
+  c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+  const x = c.getContext('2d');
+  x.fillStyle = '#fff'; x.fillRect(0,0,c.width,c.height);
+  x.imageSmoothingQuality = 'high';
+  x.drawImage(img,0,0,c.width,c.height);
+  let q = q0, out = c.toDataURL('image/jpeg',q);
+  while(out.length*0.75/1024 > targetKB && q > minQ){ q -= 0.06; out = c.toDataURL('image/jpeg',q); }
+  return out;
+}
 
 function shrink(file){
   return new Promise((res,rej)=>{
@@ -173,18 +253,7 @@ function shrink(file){
     r.onload = ()=>{
       const img = new Image();
       img.onerror = ()=>rej(new Error('Kein gültiges Bild: '+file.name));
-      img.onload = ()=>{
-        const k = Math.min(1, MAX_SIDE/Math.max(img.width,img.height));
-        const c = document.createElement('canvas');
-        c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
-        const x = c.getContext('2d');
-        x.fillStyle = '#fff'; x.fillRect(0,0,c.width,c.height);
-        x.imageSmoothingQuality = 'high';
-        x.drawImage(img,0,0,c.width,c.height);
-        let q = 0.78, out = c.toDataURL('image/jpeg',q);
-        while(out.length*0.75/1024 > TARGET_KB && q > 0.5){ q -= 0.06; out = c.toDataURL('image/jpeg',q); }
-        res(out);
-      };
+      img.onload = ()=> res({ f: draw(img, MAX_SIDE, 0.86, TARGET_KB, 0.62), t: draw(img, 560, 0.74, 45, 0.5) });
       img.src = r.result;
     };
     r.readAsDataURL(file);
@@ -195,7 +264,7 @@ $('pFiles').onchange = async e=>{
   const msg = $('editMsg'); msg.className='note';
   for(const f of e.target.files){
     if(images.length>=MAX_IMAGES){ msg.textContent='Maximal '+MAX_IMAGES+' Bilder pro Beitrag.'; msg.className='note err'; break; }
-    try{ msg.textContent='Bild wird verkleinert …'; images.push(await shrink(f)); msg.textContent=''; }
+    try{ msg.textContent='Bild wird komprimiert …'; images.push(await shrink(f)); msg.textContent=''; }
     catch(err){ msg.textContent=err.message; msg.className='note err'; }
   }
   e.target.value=''; drawThumbs();
@@ -205,14 +274,73 @@ $('saveBtn').onclick = ()=>{
   const title = $('pTitle').value.trim(), text = $('pText').value.trim(), msg = $('editMsg');
   if(!title || !text){ msg.textContent='Bitte Titel und Text ausfüllen.'; msg.className='note err'; return; }
   const now = Date.now();
-  const data = {title, text, images: images.length?images:null, updatedAt: now};
+  const id = editId || db.ref(BLOG_PATH).push().key;
+  const old = editId ? posts[editId] : null;
+  const post = {title, text, imgCount: images.length, createdAt: old ? old.createdAt : now, updatedAt: now};
   msg.textContent='Wird gespeichert …'; msg.className='note';
-  const op = editId
-    ? db.ref(BLOG_PATH+'/'+editId).update(data)
-    : db.ref(BLOG_PATH).push({...data, createdAt: now});
-  op.then(()=>{ $('editor').style.display='none'; })
+  db.ref().update({
+    [BLOG_PATH+'/'+id]: post,
+    ['blog/images/'+id]: images.length ? images : null
+  }).then(()=>{ delete imgCache[id]; $('editor').style.display='none'; })
     .catch(err=>{ msg.textContent='Speichern fehlgeschlagen: '+err.message; msg.className='note err'; });
 };
+
+$('contactBtn').onclick = ()=>{
+  const c = $('contact'), open = c.style.display!=='block';
+  c.style.display = open ? 'block' : 'none';
+  if(open){ $('cName').focus(); c.scrollIntoView({behavior:'smooth',block:'start'}); }
+};
+$('cCancel').onclick = ()=> $('contact').style.display='none';
+$('cSend').onclick = ()=>{
+  const m=$('cMsg'), name=$('cName').value.trim(), email=$('cEmail').value.trim(), text=$('cText').value.trim();
+  m.className='note err';
+  if($('cHp').value) return;
+  if(!name || !text){ m.textContent='Bitte Name und Nachricht ausfüllen.'; return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ m.textContent='Bitte eine gültige E-Mail-Adresse angeben.'; return; }
+  try{ if(Date.now()-(+localStorage.getItem('lastMsg')||0) < 30000){ m.textContent='Bitte einen Moment warten.'; return; } }catch(e){}
+  m.className='note'; m.textContent='Wird gesendet …'; $('cSend').disabled=true;
+  db.ref('blog/messages').push({name:name.slice(0,100), email:email.slice(0,200), text:text.slice(0,4000), createdAt:Date.now()})
+    .then(()=>{
+      try{ localStorage.setItem('lastMsg', Date.now()); }catch(e){}
+      $('cName').value=''; $('cEmail').value=''; $('cText').value='';
+      m.className='note ok'; m.textContent='Danke! Deine Nachricht wurde gesendet.';
+    })
+    .catch(()=>{ m.className='note err'; m.textContent='Senden fehlgeschlagen. Bitte später erneut versuchen.'; })
+    .finally(()=>{ $('cSend').disabled=false; });
+};
+
+let msgRef = null, msgs = {};
+function adminMessages(on){
+  if(msgRef){ msgRef.off(); msgRef = null; }
+  msgs = {};
+  if(!on) return;
+  msgRef = db.ref('blog/messages');
+  msgRef.on('value', v=>{ msgs = v.val()||{}; renderInbox(); },
+    err=>{ $('inboxList').innerHTML = '<div class="note err">Nachrichten konnten nicht geladen werden: '+esc(err.message)+'</div>'; });
+}
+function renderInbox(){
+  const ids = Object.keys(msgs).sort((a,b)=>msgs[b].createdAt-msgs[a].createdAt);
+  $('inboxBtn').textContent = 'Nachrichten' + (ids.length ? ' ('+ids.length+')' : '');
+  $('inboxList').innerHTML = ids.length ? ids.map(id=>{
+    const m = msgs[id];
+    return `<div class="msgitem"><div class="who">${esc(m.name)} · <a href="mailto:${esc(m.email)}" style="color:inherit">${esc(m.email)}</a> · ${new Date(m.createdAt).toLocaleString('de-DE')}</div>
+      <div class="text">${esc(m.text)}</div>
+      <div class="admin-actions"><button class="danger mini" data-mdel="${id}">Löschen</button></div></div>`;
+  }).join('') : '<div class="note">Noch keine Nachrichten.</div>';
+}
+$('inboxList').addEventListener('click', e=>{
+  const id = e.target.dataset.mdel;
+  if(id && confirm('Nachricht endgültig löschen?')) db.ref('blog/messages/'+id).remove();
+});
+$('inboxBtn').onclick = ()=>{ const b=$('inbox'); b.style.display = b.style.display==='block' ? 'none' : 'block'; };
+
+function listen(){
+  if(unsub) unsub();
+  const ref = db.ref(BLOG_PATH).orderByKey().limitToLast(limit);
+  const cb = s=>{ posts = s.val()||{}; loaded = Object.keys(posts).length; render(); };
+  ref.on('value', cb, err=>{ $('posts').innerHTML='<div class="msg">Beiträge konnten nicht geladen werden: '+esc(err.message)+'</div>'; });
+  unsub = ()=>ref.off('value', cb);
+}
 
 try{
   firebase.initializeApp(firebaseConfig);
@@ -220,12 +348,12 @@ try{
   db.ref('.info/connected').on('value', s=>{
     $('conn').textContent = s.val() ? '' : 'keine Verbindung …';
   });
-  db.ref(BLOG_PATH).on('value', s=>{ posts = s.val()||{}; render(); },
-    err=>{ $('posts').innerHTML='<div class="msg">Beiträge konnten nicht geladen werden: '+esc(err.message)+'</div>'; });
+  listen();
+  adminMessages(admin);
 }catch(e){
   $('posts').innerHTML='<div class="msg">Firebase-Verbindung fehlgeschlagen: '+esc(e.message)+'</div>';
 }
-if(admin) $('adminBtn').textContent='Neuer Beitrag';
+if(admin){ $('adminBtn').textContent='Neuer Beitrag'; $('logoutTop').style.display=''; $('inboxBtn').style.display=''; }
 </script>
 </body>
 </html>
