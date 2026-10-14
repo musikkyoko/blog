@@ -24,6 +24,8 @@ header{max-width:760px;margin:0 auto;padding:40px 22px 10px}
 h1,article h2{font-weight:600}
 h1{font-size:clamp(34px,7vw,56px);line-height:1.1;margin:0 0 8px;font-weight:400;letter-spacing:-.5px}
 .sub{color:var(--soft);margin:0}
+.authorrow{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.authorrow .author{margin:0}
 .author{margin:10px 0 0;font-size:20px;font-style:italic;color:var(--messing)}
 main{max-width:760px;margin:0 auto;padding:10px 22px 80px}
 #adminBtn{font-size:12px;min-height:0;padding:4px 8px;border:none;color:#6d6b65;opacity:.7}
@@ -67,11 +69,11 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 </head>
 <body>
 <div class="keys-wrap"><div class="keys"></div></div>
-<div class="bar"><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="contactBtn" class="mini">Kontakt / お問い合わせ</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
+<div class="bar"><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
 <header>
   <h1 id="siteTitle">Klavier – Blog</h1>
   <p class="sub" id="siteSub">Gedanken, Konzerte und Eindrücke am Flügel.</p>
-  <p class="author">Kyoko Yabuta</p>
+  <div class="authorrow"><p class="author">Kyoko Yabuta</p><button id="contactBtn" class="mini">Kontakt / お問い合わせ</button></div>
 </header>
 <main>
   <section id="contact" class="panel" style="display:none">
