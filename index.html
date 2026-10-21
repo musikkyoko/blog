@@ -47,6 +47,8 @@ article h2{font-size:30px;line-height:1.25;margin:0 0 4px;font-weight:400}
 .hp{position:absolute;left:-9999px;height:0;width:0;opacity:0}
 .msgitem{border-top:1px solid #333a46;padding:12px 0}
 .msgitem .who{color:var(--messing);font-size:14px;word-break:break-all}
+.about-photo{width:min(100%,300px);border-radius:6px;float:left;margin:4px 22px 12px 0}
+@media(max-width:520px){.about-photo{float:none;display:block;margin:0 0 14px}}
 .imgs img{width:100%;border-radius:4px;display:block;cursor:zoom-in}
 .admin-actions{margin-top:14px;display:flex;gap:8px}
 .msg{color:var(--soft);padding:40px 0;text-align:center}
@@ -69,7 +71,7 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
 </head>
 <body>
 <div class="keys-wrap"><div class="keys"></div></div>
-<div class="bar"><button id="contactBtn" class="mini" style="margin-right:auto">Kontakt / お問い合わせ</button><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
+<div class="bar"><button id="aboutBtn" class="mini">Über mich / プロフィール</button><button id="contactBtn" class="mini" style="margin-right:auto">Kontakt / お問い合わせ</button><span id="conn" class="note"></span><button id="inboxBtn" class="mini" style="display:none">Nachrichten</button><button id="adminBtn">Verwalten</button><button id="logoutTop" class="mini" style="display:none">Abmelden</button></div>
 <header>
   <h1 id="siteTitle">Klavier – Blog</h1>
   <p class="sub" id="siteSub">Gedanken, Konzerte und Eindrücke am Flügel.</p>
@@ -86,6 +88,21 @@ footer{text-align:center;color:var(--soft);font-size:13px;padding:0 0 40px}
     <textarea id="cText" maxlength="4000" style="min-height:150px"></textarea>
     <input type="text" id="cHp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="row"><button class="primary" id="cSend">Nachricht senden / 送信</button><button id="cCancel">Schließen / 閉じる</button><span id="cMsg" class="note"></span></div>
+  </section>
+  <section id="about" class="panel" style="display:none">
+    <h3>Über mich / プロフィール</h3>
+    <div id="aboutView"></div>
+    <div id="aViewRow" class="row"><button id="aEditBtn" class="mini" style="display:none">Bearbeiten / 編集</button><button id="aClose" class="mini">Schließen / 閉じる</button></div>
+    <div id="aboutEdit" style="display:none">
+      <label for="aTitle">Überschrift / 見出し</label>
+      <input type="text" id="aTitle" maxlength="140">
+      <label for="aText">Text / 本文</label>
+      <textarea id="aText" style="min-height:220px"></textarea>
+      <label for="aFile">Foto / 写真</label>
+      <input type="file" id="aFile" accept="image/*">
+      <div class="thumbs" id="aThumb"></div>
+      <div class="row"><button class="primary" id="aSave">Speichern / 保存</button><button id="aCancel">Abbrechen / キャンセル</button><span id="aMsg" class="note"></span></div>
+    </div>
   </section>
   <section id="inbox" class="panel" style="display:none">
     <h3>Nachrichten</h3>
@@ -140,6 +157,32 @@ function imgsOf(id){
   return imgCache[id] || null;                                        // null = lädt noch
 }
 
+/* Vorschau zuerst; nach 2 s Sichtbarkeit wird das große Bild nachgeladen */
+const dwell = new Map();
+const io = window.IntersectionObserver ? new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    const img = en.target;
+    if(en.isIntersecting){
+      if(!dwell.has(img)) dwell.set(img, setTimeout(()=>{ dwell.delete(img); upgrade(img); }, 2000));
+    }else if(dwell.has(img)){ clearTimeout(dwell.get(img)); dwell.delete(img); }
+  });
+},{threshold:0.6}) : null;
+function observeImgs(){
+  if(!io) return;
+  io.disconnect(); dwell.forEach(t=>clearTimeout(t)); dwell.clear();
+  document.querySelectorAll('#posts img[data-p]').forEach(img=>io.observe(img));
+}
+function fullOf(id, i){
+  const x = (imgsOf(id)||[])[i]; if(!x) return Promise.resolve(null);
+  if(x.f) return Promise.resolve(x.f);
+  if(!x.loading) x.loading = db.ref('blog/images/'+id+'/'+i+'/f').once('value').then(s=>(x.f = s.val() || x.t)).catch(()=>x.t);
+  return x.loading;
+}
+async function upgrade(img){
+  const f = await fullOf(img.dataset.p, +img.dataset.i);
+  if(f && img.isConnected && img.src !== f){ const pre = new Image(); pre.onload = ()=>{ img.src = f; }; pre.src = f; }
+}
+
 function render(){
   const ids = Object.keys(posts).sort((a,b)=>posts[b].createdAt-posts[a].createdAt);
   if(!ids.length){ $('posts').innerHTML = '<div class="msg">Noch keine Beiträge veröffentlicht.</div>'; return; }
@@ -147,7 +190,7 @@ function render(){
     const p = posts[id], n = p.imgCount || (p.images ? Object.keys(p.images).length : 0), im = n ? imgsOf(id) : [];
     let grid = '';
     if(n && !im) grid = `<div class="imgs">${'<div class="ph"></div>'.repeat(Math.min(n,3))}</div>`;
-    else if(im && im.length) grid = `<div class="imgs">${im.map((x,i)=>`<img src="${x.t}" data-p="${id}" data-i="${i}" alt="Bild zu „${esc(p.title)}“">`).join('')}</div>`;
+    else if(im && im.length) grid = `<div class="imgs">${im.map((x,i)=>!x.t?'':`<img src="${x.f||x.t}" data-p="${id}" data-i="${i}" alt="Bild zu „${esc(p.title)}“">`).join('')}</div>`;
     return `<article>
       <h2>${esc(p.title)}</h2>
       <div class="date">${fmt(p.createdAt)}</div>
@@ -160,18 +203,22 @@ function render(){
     const p = posts[id];
     if(p.imgCount && !p.images && !(id in imgCache)){
       imgCache[id] = undefined;
-      db.ref('blog/images/'+id).once('value').then(sn=>{ imgCache[id] = Object.values(sn.val()||{}); render(); })
+      // nur die kleinen Vorschaubilder laden (…/t), die großen (…/f) erst bei Bedarf
+      Promise.all(Array.from({length:p.imgCount}, (_,i)=>db.ref('blog/images/'+id+'/'+i+'/t').once('value').then(sn=>({t:sn.val()}))))
+        .then(list=>{ imgCache[id] = list; render(); })
         .catch(()=>{ imgCache[id] = []; });
     }
   });
+  observeImgs();
 }
 
 $('posts').addEventListener('click', e=>{
   const t = e.target;
   if(t.id==='moreBtn'){ limit += PAGE; listen(); return; }
   if(t.tagName==='IMG' && t.dataset.p){
-    const x = imgsOf(t.dataset.p)[+t.dataset.i];
-    $('lightbox').firstElementChild.src = x.f; $('lightbox').style.display='flex';
+    const pid = t.dataset.p, ix = +t.dataset.i, x = imgsOf(pid)[ix];
+    $('lightbox').firstElementChild.src = x.f || x.t; $('lightbox').style.display='flex';
+    if(!x.f) fullOf(pid, ix).then(f=>{ if(f && $('lightbox').style.display==='flex') $('lightbox').firstElementChild.src = f; });
   }
   if(t.dataset.edit) openEditor(t.dataset.edit);
   if(t.dataset.del && confirm('Diesen Beitrag endgültig löschen?')){
@@ -189,6 +236,7 @@ function setAdmin(on){
   $('logoutTop').style.display = on ? '' : 'none';
   if(!on){ $('editor').style.display='none'; $('inbox').style.display='none'; }
   adminMessages(on);
+  renderAbout(); if(!on) aboutView();
   render();
 }
 
@@ -335,6 +383,58 @@ $('inboxList').addEventListener('click', e=>{
   if(id && confirm('Nachricht endgültig löschen?')) db.ref('blog/messages/'+id).remove();
 });
 $('inboxBtn').onclick = ()=>{ const b=$('inbox'); b.style.display = b.style.display==='block' ? 'none' : 'block'; };
+
+/* ---------- Über mich ---------- */
+let aboutData = null, aboutPhoto = null;
+function renderAbout(){
+  const a = aboutData;
+  $('aboutView').innerHTML = a
+    ? (a.photo ? `<img class="about-photo" src="${a.photo}" alt="Foto von Kyoko Yabuta">` : '')
+      + (a.title ? `<h2 style="margin:0 0 8px;font-weight:400">${esc(a.title)}</h2>` : '')
+      + `<div class="text">${esc(a.text)}</div><div style="clear:both"></div>`
+    : '<div class="note">Noch kein Beitrag vorhanden. / まだ投稿がありません。</div>';
+  $('aEditBtn').style.display = admin ? '' : 'none';
+}
+function aboutView(){ $('aboutEdit').style.display='none'; $('aboutView').style.display=''; $('aViewRow').style.display=''; }
+async function loadAbout(){
+  try{ aboutData = (await db.ref('blog/about').once('value')).val(); }
+  catch(e){ $('aboutView').innerHTML = '<div class="note err">Konnte nicht geladen werden: '+esc(e.message)+'</div>'; return; }
+  renderAbout();
+}
+$('aboutBtn').onclick = ()=>{
+  const p = $('about'), open = p.style.display!=='block';
+  p.style.display = open ? 'block' : 'none';
+  if(open){ aboutView(); loadAbout(); p.scrollIntoView({behavior:'smooth',block:'start'}); }
+};
+$('aClose').onclick = ()=> $('about').style.display='none';
+function drawAboutThumb(){
+  $('aThumb').innerHTML = aboutPhoto ? `<div class="thumb"><img src="${aboutPhoto}" alt=""><button data-arm="1" aria-label="Foto entfernen">×</button></div>` : '';
+}
+$('aThumb').addEventListener('click', e=>{ if(e.target.dataset.arm){ aboutPhoto = null; drawAboutThumb(); } });
+$('aEditBtn').onclick = ()=>{
+  $('aTitle').value = (aboutData && aboutData.title) || '';
+  $('aText').value = (aboutData && aboutData.text) || '';
+  aboutPhoto = (aboutData && aboutData.photo) || null;
+  $('aFile').value = ''; $('aMsg').textContent = ''; drawAboutThumb();
+  $('aboutView').style.display='none'; $('aViewRow').style.display='none'; $('aboutEdit').style.display='block';
+};
+$('aCancel').onclick = aboutView;
+$('aFile').onchange = async e=>{
+  const f = e.target.files[0], m = $('aMsg'); if(!f) return;
+  m.className = 'note'; m.textContent = 'Foto wird komprimiert …';
+  try{ aboutPhoto = (await shrink(f)).f; m.textContent = ''; drawAboutThumb(); }
+  catch(err){ m.className='note err'; m.textContent = err.message; }
+  e.target.value = '';
+};
+$('aSave').onclick = ()=>{
+  const m = $('aMsg'), text = $('aText').value.trim();
+  if(!text){ m.className='note err'; m.textContent='Bitte einen Text eingeben.'; return; }
+  const data = {title:$('aTitle').value.trim(), text, photo:aboutPhoto||null, updatedAt:Date.now()};
+  m.className = 'note'; m.textContent = 'Wird gespeichert …';
+  db.ref('blog/about').set(data)
+    .then(()=>{ aboutData = data; aboutView(); renderAbout(); })
+    .catch(err=>{ m.className='note err'; m.textContent='Speichern fehlgeschlagen: '+err.message; });
+};
 
 function listen(){
   if(unsub) unsub();
